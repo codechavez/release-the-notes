@@ -1,0 +1,36 @@
+{
+    "manifestVersion": 1,
+    "id": "build-release-the-notes-task",
+    "name": "Release the Notes",
+    "version": "0.0.1",
+    "publisher": "CodeChavez",
+    "targets": [
+        {
+            "id": "Microsoft.VisualStudio.Services"
+        }
+    ],    
+    "description": "Tools for building/releasing notes. ",
+    "categories": [
+        "Azure Pipelines"
+    ],
+    "icons": {
+        "default": "images/icon.png"        
+    },
+    "files": [
+        {
+            "path": "releasethenotes"
+        }
+    ],
+    "contributions": [
+        {
+            "id": "custom-build-release-the-notes-task",
+            "type": "ms.vss-distributed-task.task",
+            "targets": [
+                "ms.vss-distributed-task.tasks"
+            ],
+            "properties": {
+                "name": "releasethenotes"
+            }
+        }
+    ]
+}
