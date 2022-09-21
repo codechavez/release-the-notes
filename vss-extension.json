@@ -18,7 +18,7 @@
     },
     "files": [
         {
-            "path": "releasethenotes"
+            "path": "."
         }
     ],
     "contributions": [
@@ -29,7 +29,7 @@
                 "ms.vss-distributed-task.tasks"
             ],
             "properties": {
-                "name": "releasethenotes"
+                "name": "customreleasetask"
             }
         }
     ]
