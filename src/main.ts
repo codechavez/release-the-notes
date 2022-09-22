@@ -51,6 +51,9 @@ async function run() {
         console.log(title);
         console.log(wikiRootSource);
         console.log(releaseWikiName);
+        console.log("create a rest call to add page and/or content");
+        console.log("check if wiki is created otherwise create one and start adding paging/release with number");
+        console.log("build and release have options to pull workitems relared to build/release. pull them to build page content");
         //console.log(azureEndpoint);
     }
     catch (error) {
