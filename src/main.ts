@@ -13,6 +13,9 @@ async function run() {
         const connectedServiceName = tl.getInput('ConnectedServiceName',true);
         console.log(connectedServiceName);
 
+        let orgUrl: string = tl.getInput('ADOBaseUrl',true);
+        console.log(orgUrl);
+
         const repositoryName = tl.getInput("RNRepositoryName", true);
         console.log(repositoryName);
         
@@ -30,8 +33,11 @@ async function run() {
 
         console.log("Step 3.2")
         let authHandler = azdev.getPersonalAccessTokenHandler(token); 
+
+        
+
         console.log("Step 3.3")
-        let orgUrl = "https://dev.azure.com/teslacodenet";
+        //let orgUrl = "https://dev.azure.com/teslacodenet";
         let connection = new azdev.WebApi(orgUrl, authHandler);    
         
         console.log(connection.serverUrl)

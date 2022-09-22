@@ -11,7 +11,7 @@
     "version": {
         "Major": 0,
         "Minor": 1,
-        "Patch": 17
+        "Patch": 18
     },
     "minimumAgentVersion": "2.0.0",
     "instanceNameFormat": "Release the Notes for $(Build.Repository.Name)",
@@ -26,6 +26,14 @@
             "defaultValue": "",
             "required": true,
             "helpMarkDown": "Select the Azure Resource Manager subscription"
+        },
+        {
+            "name": "ADOBaseUrl",
+            "type": "string",
+            "label": "Organization",
+            "defaultValue": "$(System.CollectionUri)",
+            "required": true,
+            "helpMarkDown": "Organization name"
         },
         {
             "name": "RNRepositoryName",
