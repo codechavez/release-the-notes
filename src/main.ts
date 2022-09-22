@@ -6,32 +6,16 @@ import * as azdev from "azure-devops-node-api";
 
 async function run() {
     try {
-
-        console.log("Step 1");
         tl.setResourcePath(path.join( __dirname, 'task.json'));
-        console.log("Step 2");
-        const connectedServiceName = tl.getInput('ConnectedServiceName',true);
-        console.log(connectedServiceName);
-
+        let connectedServiceName = tl.getInput('ConnectedServiceName',true);
+        
         let orgUrl: string = tl.getInput('ADOBaseUrl',true);
-        console.log(orgUrl);
-
-        const repositoryName = tl.getInput("RNRepositoryName", true);
-        console.log(repositoryName);
-        
-        const title = tl.getInput("RNTitle", true);
-        console.log(title);
-        
-        const wikiRootSource = tl.getInput("WikiRoot", true);
-        console.log(wikiRootSource);
-
-        const releaseWikiName = tl.getInput("ReleseWiki", true);
-        console.log(releaseWikiName);
-
+        let repositoryName: string = tl.getInput("RNRepositoryName", true);
+        let title: string = tl.getInput("RNTitle", true);
+        let wikiRootSource: string = tl.getInput("WikiRoot", true);
+        let releaseWikiName: string = tl.getInput("ReleseWiki", true);
         let token: string = process.env.AZURE_PERSONAL_ACCESS_TOKEN;
-        console.log(token);
 
-        console.log("Step 3.2")
         let authHandler = azdev.getPersonalAccessTokenHandler(token); 
 
         
