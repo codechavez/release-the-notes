@@ -11,22 +11,11 @@
     "version": {
         "Major": 0,
         "Minor": 1,
-        "Patch": 18
+        "Patch": 31
     },
     "minimumAgentVersion": "2.0.0",
-    "instanceNameFormat": "Release the Notes for $(Build.Repository.Name)",
+    "instanceNameFormat": "Release the Notes",
     "inputs": [
-        {
-            "name": "ConnectedServiceName",
-            "aliases": [
-                "azureSubscription"
-            ],
-            "type": "connectedService:AzureRM",
-            "label": "Azure subscription",
-            "defaultValue": "",
-            "required": true,
-            "helpMarkDown": "Select the Azure Resource Manager subscription"
-        },
         {
             "name": "ADOBaseUrl",
             "type": "string",
@@ -70,9 +59,9 @@
         },
         {
             "name": "ReleseWiki",
-            "label": "Release Wiki",
+            "label": "Wiki Prefix",
             "type": "string",
-            "defaultValue": "Releases",
+            "defaultValue": "Release",
             "required": true,
             "helpMarkDown": "Enter wiki name where release will be creating sub-wikis"
 

@@ -2,7 +2,7 @@
     "manifestVersion": 1,
     "id": "build-release-the-notes-task",
     "name": "Release the Notes",
-    "version": "0.1.18",
+    "version": "0.1.31",
     "publisher": "ViFrankenstein",
     "targets": [
         {

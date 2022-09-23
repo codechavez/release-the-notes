@@ -1,43 +1,45 @@
 import tl = require('azure-pipelines-task-lib/task');
 import path = require('path');
-import { AzureRMEndpoint, dispose } from 'azure-pipelines-tasks-azure-arm-rest-v2/azure-arm-endpoint';
-import { AzureEndpoint } from 'azure-pipelines-tasks-azure-arm-rest-v2/azureModels';
 import * as azdev from "azure-devops-node-api";
+import * as WikiApi from "azure-devops-node-api/WikiApi";
+import * as WikiInterfaces from "azure-devops-node-api/interfaces/WikiInterfaces";
+import * as lim from "azure-devops-node-api/interfaces/LocationsInterfaces";
 
 async function run() {
     try {
         tl.setResourcePath(path.join( __dirname, 'task.json'));
-        let connectedServiceName = tl.getInput('ConnectedServiceName',true);
         
+        // Getting input values
         let orgUrl: string = tl.getInput('ADOBaseUrl',true);
         let repositoryName: string = tl.getInput("RNRepositoryName", true);
         let title: string = tl.getInput("RNTitle", true);
         let wikiRootSource: string = tl.getInput("WikiRoot", true);
         let releaseWikiName: string = tl.getInput("ReleseWiki", true);
-        let token: string = process.env.AZURE_PERSONAL_ACCESS_TOKEN;
+        let versionNumber: string = tl.getInput("RNVersion", true);
+        
+        let token:string = process.env.SYSTEM_ACCESSTOKEN;
+        let project:string = process.env.SYSTEM_TEAMPROJECT;
 
+        console.log(`Using Project ${project}`);
+
+        // Authenticating and connecting
         let authHandler = azdev.getPersonalAccessTokenHandler(token); 
-
+        let webapi = new azdev.WebApi(orgUrl, authHandler, undefined);    
+        let connData: lim.ConnectionData = await webapi.connect();
         
+        console.log("Authentication good!");
 
-        console.log("Step 3.3")
-        //let orgUrl = "https://dev.azure.com/teslacodenet";
-        let connection = new azdev.WebApi(orgUrl, authHandler);    
-        
-        console.log(connection.serverUrl)
+        // Wiki Access
+        let wikiApiObject: WikiApi.IWikiApi = await webapi.getWikiApi();
+        console.log("Get all Wikis");
 
-        console.log("Step 3.4")
-        //let azureEndpoint: AzureEndpoint = await new AzureRMEndpoint(connectedServiceName).getEndpoint();
+        const wikis: WikiInterfaces.WikiV2[] = await wikiApiObject.getAllWikis(project);
+        console.log("Wikis", wikis.map((wiki) => wiki));
 
-        console.log("Step 4");
-        console.log(connectedServiceName);
-        console.log(repositoryName);
-        console.log(title);
-        console.log(wikiRootSource);
-        console.log(releaseWikiName);
-        console.log("create a rest call to add page and/or content");
-        console.log("check if wiki is created otherwise create one and start adding paging/release with number");
-        console.log("build and release have options to pull workitems relared to build/release. pull them to build page content");
+
+        // console.log("create a rest call to add page and/or content");
+        // console.log("check if wiki is created otherwise create one and start adding paging/release with number");
+        // console.log("build and release have options to pull workitems relared to build/release. pull them to build page content");
         //console.log(azureEndpoint);
     }
     catch (error) {
