@@ -70,6 +70,7 @@ async function run() {
         //console.log(wiDetails);
 
         let workItems: WikiPageApi.IWorkItemDetail[] =[];
+
         wiDetails.forEach(function(item){
             workItems.push({
                 id:item.id,
@@ -80,23 +81,38 @@ async function run() {
             //console.log(`WORK ITEM TYPE ${item.fields["System.WorkItemType"]}`);
         });
         
+        let itemTypes = [...new Set(workItems.map(item => item.type))];
+        console.log(itemTypes);
+
         var groupWIs = workItems.reduce((g:any, item:WikiPageApi.IWorkItemDetail)=>{
             g[item.type] = g[item.type] || [];
             g[item.type].push(item);
             return g;
-        },{});
+        },[]);
 
         console.log(groupWIs);
 
-        //TODO: Build the Release page
-        
+        //Build the Release page
+        let now = new Date();
+        let stringBuilder: string[] = [];
 
+        stringBuilder.push(`# Release Notes - ${now.toDateString()} \n`);
+        stringBuilder.push(`# ${repositoryName} ${versionNumber} \n`);
 
+        itemTypes.forEach(type => {
+            stringBuilder.push(`## ${type} \n`);
+            stringBuilder.push(`--- \n`);
+            workItems.forEach(item=>{
+                if(item.type === type){
+                    stringBuilder.push(`#${item.id} \n`);
+                }
+            });
+            stringBuilder.push(`\n\n`);
+        });
 
+        console.log(stringBuilder.join(""));
 
-
-
-
+        //TODO: Write the release notes into Wiki's page
 
 
         console.log("THIS IS THE END");

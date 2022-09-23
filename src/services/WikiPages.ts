@@ -16,6 +16,11 @@ export interface IWorkItemDetail{
     url:string;
 }
 
+export interface IGroupWorkItem{
+    key:string;
+    workItems:IWorkItemDetail[];
+}
+
 export interface IWikiPageApi {
     getPages(wikiUrl: string, size: number, token: string): Promise<WikiPage[]>;
     getPage(wikiUrl: string, page: string, token: string): Promise<WikiPageWithContent>;
