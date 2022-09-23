@@ -4,6 +4,10 @@ import * as azdev from "azure-devops-node-api";
 import * as WikiApi from "azure-devops-node-api/WikiApi";
 import * as WikiInterfaces from "azure-devops-node-api/interfaces/WikiInterfaces";
 import * as lim from "azure-devops-node-api/interfaces/LocationsInterfaces";
+import * as WikiPageApi from './services/WikiPages'
+import * as ba from "azure-devops-node-api/BuildApi";
+import * as bi from "azure-devops-node-api/interfaces/BuildInterfaces";
+
 
 async function run() {
     try {
@@ -19,6 +23,8 @@ async function run() {
         
         let token:string = process.env.SYSTEM_ACCESSTOKEN;
         let project:string = process.env.SYSTEM_TEAMPROJECT;
+        let buildId:string = process.env.BUILD_BUILDID;
+        console.log(`BuildId: ${buildId}`);
 
         console.log(`Using Project ${project}`);
 
@@ -36,11 +42,22 @@ async function run() {
         const wikis: WikiInterfaces.WikiV2[] = await wikiApiObject.getAllWikis(project);
         console.log("Wikis", wikis.map((wiki) => wiki));
 
+        let wikiUrl = wikis[0].url;
 
-        // console.log("create a rest call to add page and/or content");
-        // console.log("check if wiki is created otherwise create one and start adding paging/release with number");
-        // console.log("build and release have options to pull workitems relared to build/release. pull them to build page content");
-        //console.log(azureEndpoint);
+        let wikiPageApi = new WikiPageApi.WikiPageApi;
+        let wikipages: WikiInterfaces.WikiPage[] = await wikiPageApi.getPages(wikiUrl, 100, token);
+        console.log(wikipages);
+        console.log(`Getting page ${wikipages[0].path}`)
+
+        let wikiPage:WikiPageApi.WikiPageWithContent = await wikiPageApi.getPage(wikiUrl, wikipages[0].path, token);
+        console.log(wikiPage);
+
+        console.log(`Getting workItems in build`);
+        let buildObject: ba.IBuildApi = await webapi.getBuildApi();
+        let workItems = await buildObject.getBuildWorkItemsRefs(project,Number(buildId));
+        console.log("workitems", workItems.map((wi) => wi));
+
+        // get work items
     }
     catch (error) {
         tl.setResult(tl.TaskResult.Failed, error);

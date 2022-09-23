@@ -11,7 +11,7 @@
     "version": {
         "Major": 0,
         "Minor": 1,
-        "Patch": 31
+        "Patch": 42
     },
     "minimumAgentVersion": "2.0.0",
     "instanceNameFormat": "Release the Notes",

@@ -21,12 +21,11 @@
     "axios": "^0.27.2",
     "azure-devops-node-api": "^11.2.0",
     "azure-pipelines-task-lib": "^4.0.0-preview",
-    "azure-pipelines-tasks-azure-arm-rest-v2": "^2.210.0",
     "azure-pipelines-tasks-utility-common": "^3.210.0"
   },
   "devDependencies": {
     "@types/mocha": "^9.1.1",
-    "@types/node": "^18.7.18",
+    "@types/node": "^18.7.18 ",
     "@types/q": "^1.5.5",
     "sync-request": "^6.1.0"
   }
