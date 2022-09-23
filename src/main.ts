@@ -7,6 +7,8 @@ import * as lim from "azure-devops-node-api/interfaces/LocationsInterfaces";
 import * as WikiPageApi from './services/WikiPages'
 import * as ba from "azure-devops-node-api/BuildApi";
 import * as bi from "azure-devops-node-api/interfaces/BuildInterfaces";
+import * as WorkItemTrackingApi from 'azure-devops-node-api/WorkItemTrackingApi';
+import * as WorkItemTrackingInterfaces from 'azure-devops-node-api/interfaces/WorkItemTrackingInterfaces';
 
 
 async function run() {
@@ -42,6 +44,7 @@ async function run() {
         const wikis: WikiInterfaces.WikiV2[] = await wikiApiObject.getAllWikis(project);
         console.log("Wikis", wikis.map((wiki) => wiki));
 
+        // Get Wiki's Pages
         let wikiUrl = wikis[0].url;
 
         let wikiPageApi = new WikiPageApi.WikiPageApi;
@@ -52,12 +55,51 @@ async function run() {
         let wikiPage:WikiPageApi.WikiPageWithContent = await wikiPageApi.getPage(wikiUrl, wikipages[0].path, token);
         console.log(wikiPage);
 
+        // Get Build's related workitems
         console.log(`Getting workItems in build`);
         let buildObject: ba.IBuildApi = await webapi.getBuildApi();
-        let workItems = await buildObject.getBuildWorkItemsRefs(project,Number(buildId));
-        console.log("workitems", workItems.map((wi) => wi));
+        let buildWorkItems = await buildObject.getBuildWorkItemsRefs(project,Number(buildId));
+        console.log("workitems", buildWorkItems.map((wi) => wi));
 
-        // get work items
+        let workItemObject: WorkItemTrackingApi.IWorkItemTrackingApi = await webapi.getWorkItemTrackingApi();
+        let wiDetails: WorkItemTrackingInterfaces.WorkItem[] = [];
+
+        for(let item of buildWorkItems){
+            wiDetails.push(await workItemObject.getWorkItem(Number(item.id)));
+        }
+        //console.log(wiDetails);
+
+        let workItems: WikiPageApi.IWorkItemDetail[] =[];
+        wiDetails.forEach(function(item){
+            workItems.push({
+                id:item.id,
+                type:item.fields["System.WorkItemType"],
+                url:item.url
+            } as WikiPageApi.IWorkItemDetail)
+
+            //console.log(`WORK ITEM TYPE ${item.fields["System.WorkItemType"]}`);
+        });
+        
+        var groupWIs = workItems.reduce((g:any, item:WikiPageApi.IWorkItemDetail)=>{
+            g[item.type] = g[item.type] || [];
+            g[item.type].push(item);
+            return g;
+        },{});
+
+        console.log(groupWIs);
+
+        //TODO: Build the Release page
+        
+
+
+
+
+
+
+
+
+
+        console.log("THIS IS THE END");
     }
     catch (error) {
         tl.setResult(tl.TaskResult.Failed, error);

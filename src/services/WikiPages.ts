@@ -10,6 +10,12 @@ export interface IPage{
     releaseDate:string;
 }
 
+export interface IWorkItemDetail{
+    id:number;
+    type:string;
+    url:string;
+}
+
 export interface IWikiPageApi {
     getPages(wikiUrl: string, size: number, token: string): Promise<WikiPage[]>;
     getPage(wikiUrl: string, page: string, token: string): Promise<WikiPageWithContent>;
