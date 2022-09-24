@@ -2,19 +2,36 @@
     "manifestVersion": 1,
     "id": "build-release-the-notes-task",
     "name": "Release the Notes",
-    "version": "0.1.79",
+    "version": "0.1.82",
     "publisher": "ViFrankenstein",
     "targets": [
         {
             "id": "Microsoft.VisualStudio.Services"
         }
     ],
-    "description": "Tools for building/releasing notes. ",
+    "description": "Create release note inside your project's wiki. Add release notes step to your Azure pipeline",
     "categories": [
         "Azure Pipelines"
     ],
     "icons": {
-        "default": "images/icon.png"
+        "default": "images/icon.png",
+        "note": "images/notes_screen.png",
+        "config":"images/note_screen_configs.png"
+    },
+    "tags": [
+        "CI/CD",
+        "Notes",
+        "Release Notes",
+        "Pipeline",
+        "WorkItems"
+    ],
+    "content": {
+        "details": {
+            "path": "README.md"
+        },
+        "license": {
+            "path": "LICENSE"
+        }
     },
     "files": [
         {
