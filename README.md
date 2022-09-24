@@ -18,6 +18,7 @@ The "note" is actually the version number, so I would recommend to use some sort
 > REQUIRES: Add Permission to build pipeline. [link](https://learn.microsoft.com/en-us/azure/devops/project/wiki/manage-readme-wiki-permissions?view=azure-devops)
 
 
-![nodescreen](/images/nodes_screen.png)
+![nodescreen](images/nodes_screen.png)
 
-![nodescreen2](/images/node_screen_configs.png)
+![nodescreen2](images/node_screen_configs.png)
+
