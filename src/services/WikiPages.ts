@@ -43,13 +43,27 @@ export class WikiPageApi implements IWikiPageApi {
     }
 
     async CreatePage(wikiUrl: string, page: string, content: string, token:string): Promise<WikiPageWithContent> {
-        
-        throw new Error('Method not implemented.');
+        let url: string = `${wikiUrl}/pages?path=${page}&api-version=6.0`;
+        let putData: string = JSON.stringify({
+            "content": content
+        });
+
+        let wikipage:WikiPageWithContent = await axios.put(
+            url,
+            putData,
+            { headers: this.getHeaders(token) }
+        ).then((response) => {
+            return response.data;
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+
+        return wikipage;
     }
 
     async getPages(wikiUrl: string, size: number, token: string): Promise<WikiPage[]> {
         let url: string = `${wikiUrl}/pagesbatch?api-version=6.0-preview.1`;
-
         let postData: string = JSON.stringify({
             "top": 100
         });

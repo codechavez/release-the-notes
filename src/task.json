@@ -11,7 +11,7 @@
     "version": {
         "Major": 0,
         "Minor": 1,
-        "Patch": 71
+        "Patch": 79
     },
     "minimumAgentVersion": "2.0.0",
     "instanceNameFormat": "Release the Notes",
@@ -39,7 +39,6 @@
             "defaultValue": "$(Build.BuildNumber)",
             "required": true,
             "helpMarkDown": "Build number set by any versioning mechanism"
-
         },
         {
             "name": "RNTitle",
@@ -50,21 +49,12 @@
             "helpMarkDown": "Enter title for wiki release notes"
         },
         {
-            "name": "WikiRoot",
-            "label": "Wiki Root",
+            "name": "WikiDestination",
+            "label": "Wiki Desitination",
             "type":"string",
-            "defaultValue": "myteam.wiki",
+            "defaultValue": "Releases",
             "required": true,
-            "helpMarkDown": "Enter the root wiki name example. Carina.wiki"
-        },
-        {
-            "name": "ReleseWiki",
-            "label": "Wiki Prefix",
-            "type": "string",
-            "defaultValue": "Release",
-            "required": true,
-            "helpMarkDown": "Enter wiki name where release will be creating sub-wikis"
-
+            "helpMarkDown": "Enter the wiki destination name example. Releases"
         }
     ],
     "execution": {

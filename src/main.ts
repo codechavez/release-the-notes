@@ -19,8 +19,7 @@ async function run() {
         let orgUrl: string = tl.getInput('ADOBaseUrl',true);
         let repositoryName: string = tl.getInput("RNRepositoryName", true);
         let title: string = tl.getInput("RNTitle", true);
-        let wikiRootSource: string = tl.getInput("WikiRoot", true);
-        let releaseWikiName: string = tl.getInput("ReleseWiki", true);
+        let wikiDestination: string = tl.getInput("WikiDestination", true);
         let versionNumber: string = tl.getInput("RNVersion", true);
         
         let token:string = process.env.SYSTEM_ACCESSTOKEN;
@@ -35,17 +34,15 @@ async function run() {
         let webapi = new azdev.WebApi(orgUrl, authHandler, undefined);    
         let connData: lim.ConnectionData = await webapi.connect();
         
-        console.log("Authentication good!");
-
         // Wiki Access
         let wikiApiObject: WikiApi.IWikiApi = await webapi.getWikiApi();
-        console.log("Get all Wikis");
-
+        
         const wikis: WikiInterfaces.WikiV2[] = await wikiApiObject.getAllWikis(project);
         console.log("Wikis", wikis.map((wiki) => wiki));
 
         // Get Wiki's Pages
         let wikiUrl = wikis[0].url;
+        console.log(wikiUrl);
 
         let wikiPageApi = new WikiPageApi.WikiPageApi;
         let wikipages: WikiInterfaces.WikiPage[] = await wikiPageApi.getPages(wikiUrl, 100, token);
@@ -67,7 +64,6 @@ async function run() {
         for(let item of buildWorkItems){
             wiDetails.push(await workItemObject.getWorkItem(Number(item.id)));
         }
-        //console.log(wiDetails);
 
         let workItems: WikiPageApi.IWorkItemDetail[] =[];
 
@@ -77,45 +73,43 @@ async function run() {
                 type:item.fields["System.WorkItemType"],
                 url:item.url
             } as WikiPageApi.IWorkItemDetail)
-
-            //console.log(`WORK ITEM TYPE ${item.fields["System.WorkItemType"]}`);
         });
         
         let itemTypes = [...new Set(workItems.map(item => item.type))];
         console.log(itemTypes);
-
-        var groupWIs = workItems.reduce((g:any, item:WikiPageApi.IWorkItemDetail)=>{
-            g[item.type] = g[item.type] || [];
-            g[item.type].push(item);
-            return g;
-        },[]);
-
-        console.log(groupWIs);
 
         //Build the Release page
         let now = new Date();
         let stringBuilder: string[] = [];
 
         stringBuilder.push(`# Release Notes - ${now.toDateString()} \n`);
-        stringBuilder.push(`# ${repositoryName} ${versionNumber} \n`);
+        stringBuilder.push(`## Build Number ${buildId} \n`);
+        stringBuilder.push(`# ${repositoryName} version ${versionNumber} \n`);
 
         itemTypes.forEach(type => {
-            stringBuilder.push(`## ${type} \n`);
-            stringBuilder.push(`--- \n`);
+            stringBuilder.push(`## ${type} \n `);
+            stringBuilder.push(`--- \n `);
             workItems.forEach(item=>{
                 if(item.type === type){
-                    stringBuilder.push(`#${item.id} \n`);
+                    stringBuilder.push(`#${item.id} \n `);
                 }
             });
-            stringBuilder.push(`\n\n`);
+            stringBuilder.push(`\n\n `);
         });
 
-        console.log(stringBuilder.join(""));
+        //Creating Releases Page
+        let relesesPage = await wikiPageApi.CreatePage(wikiUrl, wikiDestination, "", token);
 
-        //TODO: Write the release notes into Wiki's page
+        //Creating Repo Page
+        let repourl = `${wikiDestination}/${repositoryName}`;
+        let repoPage = await wikiPageApi.CreatePage(wikiUrl, repourl, "", token);
 
+        let content = stringBuilder.join("");
+        console.log(content);
 
-        console.log("THIS IS THE END");
+        let page = `${wikiDestination}/${repositoryName}/${versionNumber}`;
+        let notesPage = await wikiPageApi.CreatePage(wikiUrl, page, content, token);
+        console.log(notesPage);
     }
     catch (error) {
         tl.setResult(tl.TaskResult.Failed, error);

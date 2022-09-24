@@ -25,7 +25,17 @@ class WikiPageApi {
     }
     CreatePage(wikiUrl, page, content, token) {
         return __awaiter(this, void 0, void 0, function* () {
-            throw new Error('Method not implemented.');
+            let url = `${wikiUrl}/pages?path=${page}&api-version=6.0`;
+            let putData = JSON.stringify({
+                "content": content
+            });
+            let wikipage = yield axios_1.default.put(url, putData, { headers: this.getHeaders(token) }).then((response) => {
+                return response.data;
+            })
+                .catch((error) => {
+                console.log(error);
+            });
+            return wikipage;
         });
     }
     getPages(wikiUrl, size, token) {
