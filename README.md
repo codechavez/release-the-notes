@@ -1,6 +1,6 @@
 # Release the Notes
 
-it's a small TypeScript code that creates a release notes page inside of you Azure DevOps's Wiki. It gets the work items related to the build so it can add them into the wiki page.
+It's a small TypeScript code that creates a release notes page inside of you Azure DevOps's Wiki. It gets the work items related to the build so it can add them into the wiki page.
 
 The structure is as follow (default settings)
 

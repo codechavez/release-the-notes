@@ -2,7 +2,7 @@
     "manifestVersion": 1,
     "id": "build-release-the-notes-task",
     "name": "Release the Notes",
-    "version": "0.1.82",
+    "version": "0.1.86",
     "publisher": "ViFrankenstein",
     "targets": [
         {
@@ -32,6 +32,18 @@
         "license": {
             "path": "LICENSE"
         }
+    },
+    "links":{
+        "home": {
+            "uri": "https://codechavez.com"
+        },
+        "issues": {
+            "uri": "https://github.com/codechavez/release-the-notes/issues"
+        }
+    },
+    "repository": {
+        "type": "git",
+        "uri": "https://github.com/codechavez/release-the-notes"
     },
     "files": [
         {
