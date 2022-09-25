@@ -7,11 +7,10 @@
     "helpMarkDown": "[Learn more about this task](https://aka.ms/AA3aeiw)",
     "category": "Utility",
     "author": "CodeChavez",
-    "preview": true,
     "version": {
         "Major": 0,
         "Minor": 1,
-        "Patch": 86
+        "Patch": 90
     },
     "minimumAgentVersion": "2.0.0",
     "instanceNameFormat": "Release the Notes",

@@ -2,14 +2,15 @@
     "manifestVersion": 1,
     "id": "build-release-the-notes-task",
     "name": "Release the Notes",
-    "version": "0.1.86",
+    "version": "0.1.90",
     "publisher": "ViFrankenstein",
+    "public":true,
     "targets": [
         {
             "id": "Microsoft.VisualStudio.Services"
         }
     ],
-    "description": "Create release note inside your project's wiki. Add release notes step to your Azure pipeline",
+    "description": "Creates release notes inside your project's wiki. Add release notes step to your Azure pipeline with Stories and Bugs",
     "categories": [
         "Azure Pipelines"
     ],
